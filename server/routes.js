@@ -6,7 +6,9 @@ const googleSearchController = require('./controllers/googleSearchController')
 const latestQuerysController = require('./controllers/latestQueryController')
 
 routes.get("/", helloWorld.get)
+// Image search route
 routes.get("/search/:query/:numberOfResults?/:size?", googleSearchController.searchImages)
-routes.get("/latest", latestQuerysController.getQuerys)
+// Latest searches route
+routes.get("/search/latest", latestQuerysController.getQuerys)
 
 module.exports = routes

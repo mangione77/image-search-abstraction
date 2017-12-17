@@ -6,6 +6,10 @@ const SearchClient = {}
 
 SearchClient.searchImages = (req,res) => {
 	let query = req.params.query
+	let numberOfResults = req.params.numberOfResults || 1
+	let picSize = req.params.size || 'large'
+
+	// Search the query. If it doesn't exist in DB (i.e it wasn't searched yet), save it
 	imageDBService.findQueryByTerm(query)
 		.then(resultQuery => {
 			if (resultQuery == null) {
@@ -16,8 +20,9 @@ SearchClient.searchImages = (req,res) => {
 					.catch(console.error)
 			}
 		})
-	let numberOfResults = req.params.numberOfResults || 1
-	let picSize = req.params.size || 'large'
+		.catch(console.error)
+	
+	// Search images and return them as json
 	client.search(query, {page:numberOfResults, size:picSize})
 		.then(images => {
 			let results = []
